@@ -1053,10 +1053,12 @@ const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwBjqPhcGBR90FGnD3Kd
 
 async function syncToSheets(event, action) {
   try {
+    const formData = new FormData();
+    formData.append('data', JSON.stringify({...event, action}));
     await fetch(SHEETS_URL, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({...event, action})
+      mode: 'no-cors',
+      body: formData
     });
   } catch(err) {
     console.log('Sheets sync failed:', err);
